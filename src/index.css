@@ -1,0 +1,442 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "lenis/dist/lenis.css";
+
+/* Keyframes and SVG paint that utilities can't express cleanly. */
+@import "./styles/signal.css";
+
+/* The site is dark-only; <html class="dark"> keeps shadcn's dark: variants active. */
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Avortyx Night — design system v2 (docs/Avortyx-UI-Benchmark-and-Design-Principles.pdf, Part III)
+   Role tokens live on :root; @theme maps them to utilities. Components never use raw hex.
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* surfaces */
+  --bg-canvas: #0b0c10;
+  --bg-surface: #111318;
+  --bg-raised: #171a20;
+  --bg-overlay: #1d2129;
+  --bg-inset: #08090c;
+
+  /* lines (white alpha) */
+  --line-subtle: rgb(255 255 255 / 0.07);
+  --line: rgb(255 255 255 / 0.11);
+  --line-strong: rgb(255 255 255 / 0.17);
+
+  /* text — contrast on canvas: 17.9 / 10.9 / 6.3 / 3.7 (fg-4 is disabled/decorative only) */
+  --fg-1: #f3f5f8;
+  --fg-2: #bbc2cf;
+  --fg-3: #8a93a3;
+  --fg-4: #646c7b;
+
+  /* one accent: primary action, focus, selection, the live signal */
+  --brand-300: #93c5fd;
+  --brand-400: #60a5fa;
+  --brand-500: #3b82f6;
+  --brand-600: #2563eb;
+  --brand-950: #172554;
+  --on-brand: #06101f;
+
+  /* status: states only, always paired with an icon or a label */
+  --ok: #34c77b;
+  --warn: #f2b544;
+  --risk: #f0844f;
+  --crit: #ef5a5a;
+
+  /* chart series, validated on #111318, fixed order; never reuse status colours */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+
+  /* shadcn/ui semantic roles, mapped onto the ramp above */
+  --background: var(--bg-canvas);
+  --foreground: var(--fg-1);
+  --card: var(--bg-surface);
+  --card-foreground: var(--fg-1);
+  --popover: #13151a;
+  --popover-foreground: var(--fg-1);
+  --primary: var(--brand-400);
+  --primary-foreground: var(--on-brand);
+  --secondary: var(--bg-raised);
+  --secondary-foreground: var(--fg-1);
+  --muted: var(--bg-raised);
+  --muted-foreground: var(--fg-3);
+  --accent: var(--bg-raised);
+  --accent-foreground: var(--fg-1);
+  --destructive: var(--crit);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--brand-500);
+  --chart-1: var(--s1);
+  --chart-2: var(--s2);
+  --chart-3: var(--s3);
+  --chart-4: var(--s4);
+  --radius: 9px;
+
+  /* motion: four durations, two easings */
+  --dur-micro: 120ms;
+  --dur-ui: 200ms;
+  --dur-panel: 320ms;
+  --dur-reveal: 600ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* layout */
+  --header-height: 80px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-raised: var(--bg-raised);
+  --color-overlay: var(--bg-overlay);
+  --color-inset: var(--bg-inset);
+
+  --color-line-subtle: var(--line-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-fg: var(--fg-1);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+
+  --color-brand: var(--brand-400);
+  --color-brand-300: var(--brand-300);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-950: var(--brand-950);
+  --color-on-brand: var(--on-brand);
+
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-risk: var(--risk);
+  --color-crit: var(--crit);
+
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-s3: var(--s3);
+  --color-s4: var(--s4);
+}
+
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", Consolas, monospace;
+
+  /* type scale: 12px floor everywhere, including inside mocks */
+  --text-label: 12px;
+  --text-label--line-height: 16px;
+  --text-caption: 13px;
+  --text-caption--line-height: 18px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-h3: 20px;
+  --text-h3--line-height: 28px;
+  --text-h2: 28px;
+  --text-h2--line-height: 34px;
+  --text-h1: 40px;
+  --text-h1--line-height: 44px;
+  --text-display: 56px;
+  --text-display--line-height: 60px;
+  --text-display-xl: 72px;
+  --text-display-xl--line-height: 72px;
+
+  /* radius: tags 4 · compact inputs 6 · buttons & inputs 9 · cards 12 · panels 16 · hero frames 24 */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-4xl: 9999px;
+
+  /* elevation (dark) — one glow per view */
+  --shadow-e1: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 1px 2px rgb(0 0 0 / 0.6);
+  --shadow-e2: 0 12px 32px -12px rgb(0 0 0 / 0.9);
+  --shadow-e3: 0 28px 70px -20px rgb(0 0 0 / 1);
+  --shadow-glow: 0 0 0 1px rgb(59 130 246 / 0.25), 0 14px 40px -14px rgb(59 130 246 / 0.6);
+  --shadow-cta: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 6px 18px -6px rgb(59 130 246 / 0.55);
+
+  --tracking-display: -0.04em;
+  --tracking-heading: -0.03em;
+  --tracking-label: 0.08em;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* marketing container: 1200 content + 32 gutters */
+  --container-site: 1264px;
+  --spacing-header: var(--header-height);
+
+  --animate-live: live-pulse 2s ease-in-out infinite;
+
+  @keyframes live-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 16px);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Lenis drives the glide; native smooth behaviour would ease each of its steps. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-background font-sans text-base text-foreground;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    color: var(--fg-1);
+    background: rgb(59 130 246 / 0.35);
+  }
+
+  /* Scrollbars: a thin rounded thumb in the line colours, brand blue while dragged.
+     Chromium and Safari use the ::-webkit-scrollbar parts (only honoured while
+     scrollbar-color is unset, so the standard properties are scoped to Firefox). */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-color: var(--line-strong);
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.28);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: var(--brand-500);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* The page scrollbar sits on its own inset track, like the console rails. */
+  html::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  html::-webkit-scrollbar-track {
+    border-left: 1px solid var(--line-subtle);
+    background: var(--bg-inset);
+  }
+
+  html::-webkit-scrollbar-thumb {
+    border-width: 3px;
+    background-color: rgb(255 255 255 / 0.14);
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.24);
+  }
+
+  @supports (-moz-appearance: none) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+    }
+
+    html {
+      scrollbar-color: rgb(255 255 255 / 0.16) var(--bg-inset);
+    }
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Focus: 2px canvas gap plus a 2px accent-500 ring, on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+  }
+
+  /* Numbers line up in tables, tickers and stat strips. */
+  .font-mono,
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  #main-content:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Site utilities
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* The chassis: a 1200px column with hairline rails, like the frame of an instrument. */
+@utility chassis {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-site);
+  border-inline: 1px solid var(--line-subtle);
+  padding-inline: 32px;
+
+  @media (width < 48rem) {
+    border-inline-color: transparent;
+    padding-inline: 20px;
+  }
+}
+
+/* Registration marks where a section rule meets the rails. */
+@utility rule-marks {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--fg-4), var(--fg-4)) center / 1px 100% no-repeat,
+      linear-gradient(var(--fg-4), var(--fg-4)) center / 100% 1px no-repeat;
+    opacity: 0.7;
+  }
+
+  &::before {
+    left: -5px;
+  }
+
+  &::after {
+    right: -5px;
+  }
+
+  @media (width < 48rem) {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* Dot grid used behind mocks and diagrams. */
+@utility bg-dots {
+  background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Line grid, faded towards the bottom. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 72%);
+}
+
+/* Subtle top highlight on raised panels. */
+@utility inner-highlight {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+}
+
+/* Status chip tint recipe: 12% fill, 35% border, text in the colour. Set --tone. */
+@utility tone-chip {
+  color: color-mix(in srgb, var(--tone) 78%, white);
+  background: color-mix(in srgb, var(--tone) 12%, transparent);
+  border-color: color-mix(in srgb, var(--tone) 35%, transparent);
+}
+
+/* Fine film grain over the whole page (the rebuild's craft detail, kept). */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
