@@ -11,6 +11,7 @@ import type { GenericPageType } from '@/pages/GenericPage'
 const Home = lazy(() => import('@/pages/Home'))
 const ProductPage = lazy(() => import('@/pages/ProductPage'))
 const GenericPage = lazy(() => import('@/pages/GenericPage'))
+const PlatformPage = lazy(() => import('@/pages/PlatformPage'))
 
 const genericRoutes: [string, GenericPageType][] = [
   ['/resources/blogs', 'blogs'],
@@ -43,11 +44,15 @@ function ScrollManager() {
   }, [])
   useEffect(() => {
     if (hash) {
-      const timer = window.setTimeout(() => {
-        const el = document.getElementById(hash.replace('#', ''))
+      // Lazily loaded pages render a beat later: wait (up to ~2 s) for the section.
+      const id = hash.replace('#', '')
+      let tries = 0
+      const timer = window.setInterval(() => {
+        const el = document.getElementById(id)
+        if (el || ++tries > 20) window.clearInterval(timer)
         if (el) scrollToTarget(el)
       }, 100)
-      return () => window.clearTimeout(timer)
+      return () => window.clearInterval(timer)
     }
     scrollToTarget(0, { immediate: true })
   }, [pathname, hash])
@@ -87,6 +92,14 @@ export function App() {
                   element={
                     <PageFade>
                       <ProductPage />
+                    </PageFade>
+                  }
+                />
+                <Route
+                  path="/platform"
+                  element={
+                    <PageFade>
+                      <PlatformPage />
                     </PageFade>
                   }
                 />

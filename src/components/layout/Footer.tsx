@@ -29,6 +29,7 @@ const columns: { title: string; links: [string, string][] }[] = [
   {
     title: 'Explore',
     links: [
+      ['How Avortyx works', '/platform'],
       ['Pricing', '/#pricing'],
       ['Sample workflows', '/resources/case-studies'],
       ['Integration planning', '/resources/integrations'],

@@ -18,15 +18,8 @@ import { Section } from '@/components/brand/Section'
 import { SampleTag } from '@/components/brand/StatusChip'
 import { IntegrationLogo } from '@/components/generic/IntegrationLogo'
 import { SalesRequestForm } from '@/components/generic/SalesRequestForm'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { PageShell } from '@/components/layout/PageShell'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { CONTACT_EMAIL } from '@/data/site'
 import { usePageTitle } from '@/hooks/usePageTitle'
@@ -417,36 +410,7 @@ export default function GenericPage({ type }: { type: GenericPageType }) {
 
   return (
     <PageShell>
-      <section className="relative isolate overflow-hidden pt-header">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-grid" />
-          <div className="absolute -top-64 left-1/2 h-120 w-[min(900px,100vw)] -translate-x-1/2 rounded-full bg-brand-600/16 blur-[120px]" />
-        </div>
-        <div className="chassis pt-10 pb-14 md:pt-14 md:pb-20">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to="/">Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem className="text-fg-3">{page.section}</BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{page.title}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <Reveal className="mt-10 flex flex-col items-start gap-6">
-            <CircuitNode icon={page.icon} active />
-            <h1 className="max-w-[20ch] text-h1 font-semibold tracking-heading text-fg md:text-display md:tracking-display">
-              {page.title}
-            </h1>
-            <p className="max-w-[60ch] text-base text-fg-2 md:text-lg">{page.subtitle}</p>
-          </Reveal>
-        </div>
-      </section>
+      <PageHeader section={page.section} title={page.title} subtitle={page.subtitle} icon={page.icon} />
       <Section innerClassName="min-h-[40vh]">
         <Reveal delay={0.1}>
           <Content />

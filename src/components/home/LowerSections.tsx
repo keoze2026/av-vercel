@@ -453,22 +453,14 @@ export function PricingSection() {
           </Reveal>
         ))}
       </div>
-      <p className="mt-6 text-center text-caption text-fg-3">
-        Transparent per-call billing · Only pay for calls that reach a buyer · Cancel anytime
-      </p>
-
-      <Reveal className="mt-12 flex flex-col items-start gap-6 rounded-xl border border-line bg-surface p-6 sm:p-8 md:flex-row md:items-center md:justify-between">
-        <div className="max-w-2xl">
-          <h3 className="text-h3 font-semibold tracking-tight text-fg">Need an enterprise plan?</h3>
-          <p className="mt-2 text-sm text-fg-2">
-            Discuss dedicated number pools, private routing, support and SLA options, compliance
-            controls, and custom integration needs with the Avortyx team.
-          </p>
-        </div>
-        <Button variant="outline" size="lg" onClick={() => navigate('/enterprise-specs')}>
-          Explore Enterprise <ArrowRight data-icon="inline-end" />
+      <div className="mt-6 flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:gap-4">
+        <p className="text-caption text-fg-3">
+          Transparent per-call billing · Only pay for calls that reach a buyer · Cancel anytime
+        </p>
+        <Button variant="link" size="sm" onClick={() => navigate('/enterprise-specs')}>
+          Need an enterprise plan? Explore Enterprise <ArrowRight data-icon="inline-end" />
         </Button>
-      </Reveal>
+      </div>
     </Section>
   )
 }

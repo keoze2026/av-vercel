@@ -29,7 +29,7 @@ import {
 import { products } from '@/data/products'
 import { companyLinks, resourceLinks, sectionLinks, type NavLink } from '@/data/site'
 import { cn } from '@/lib/utils'
-import { scrollToTop, useGoToSection } from '@/lib/motion'
+import { scrollToTop, useNavigateTo } from '@/lib/motion'
 
 const trigger = cn(
   navigationMenuTriggerStyle(),
@@ -58,7 +58,7 @@ interface HeaderProps {
 export function Header({ onOpenChat }: HeaderProps) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const goToSection = useGoToSection()
+  const navigateTo = useNavigateTo()
   const [scrolled, setScrolled] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
 
@@ -69,9 +69,10 @@ export function Header({ onOpenChat }: HeaderProps) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const section = (id: string) => {
+  /** Closes the mobile sheet, then scrolls or navigates to `path#section`. */
+  const go = (to: string) => {
     setSheetOpen(false)
-    goToSection(id)
+    navigateTo(to)
   }
 
   return (
@@ -127,10 +128,10 @@ export function Header({ onOpenChat }: HeaderProps) {
                   </ul>
                   <NavigationMenuLink asChild>
                     <Link
-                      to="/#console"
+                      to="/platform#console"
                       onClick={(e) => {
                         e.preventDefault()
-                        section('console')
+                        go('/platform#console')
                       }}
                       className="flex flex-col justify-between gap-6 rounded-lg border border-line bg-[radial-gradient(120%_80%_at_100%_0%,rgb(59_130_246/0.18),transparent_60%)] p-4 hover:border-brand/40"
                     >
@@ -170,13 +171,13 @@ export function Header({ onOpenChat }: HeaderProps) {
             ))}
 
             {sectionLinks.map((s) => (
-              <NavigationMenuItem key={s.id}>
+              <NavigationMenuItem key={s.to}>
                 <NavigationMenuLink asChild className={trigger}>
                   <Link
-                    to={`/#${s.id}`}
+                    to={s.to}
                     onClick={(e) => {
                       e.preventDefault()
-                      section(s.id)
+                      go(s.to)
                     }}
                   >
                     {s.label}
@@ -204,7 +205,7 @@ export function Header({ onOpenChat }: HeaderProps) {
           >
             Get a Demo
           </Button>
-          <Button id="get-started" className="h-9 px-3.5" onClick={() => section('pricing')}>
+          <Button id="get-started" className="h-9 px-3.5" onClick={() => go('/#pricing')}>
             Get Started
           </Button>
 
@@ -273,9 +274,9 @@ export function Header({ onOpenChat }: HeaderProps) {
                 <div className="flex flex-col border-t border-line-subtle py-2">
                   {sectionLinks.map((s) => (
                     <button
-                      key={s.id}
+                      key={s.to}
                       type="button"
-                      onClick={() => section(s.id)}
+                      onClick={() => go(s.to)}
                       className="py-3 text-left text-base font-medium text-fg"
                     >
                       {s.label}
@@ -296,7 +297,7 @@ export function Header({ onOpenChat }: HeaderProps) {
                 </div>
               </nav>
               <div className="grid gap-2 border-t border-line-subtle p-5">
-                <Button size="lg" onClick={() => section('pricing')}>
+                <Button size="lg" onClick={() => go('/#pricing')}>
                   Get Started
                 </Button>
                 <Button

@@ -43,6 +43,8 @@ function headerOffset() {
  */
 export function scrollToTarget(target: HTMLElement | number, { immediate = false } = {}) {
   if (lenis) {
+    // Pages load lazily; re-measure so a jump right after a route change is not clamped.
+    lenis.resize()
     lenis.scrollTo(target, { immediate, force: true, duration: immediate ? 0 : 1.1 })
     return
   }

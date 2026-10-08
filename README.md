@@ -17,7 +17,7 @@ npm run preview    # serve the production build
 
 - **Vite 7** with `@vitejs/plugin-react` and `@tailwindcss/vite`
 - **shadcn/ui** (Radix base, `components.json`): Button, Badge, Card, Tabs, Accordion, NavigationMenu, Sheet, Select, Slider, Input, Textarea, Label, Table, Breadcrumb, Tooltip, Sonner. Add more with `npx shadcn@latest add <name>`.
-- **React Router 7** for routing: `/`, `/product/:id`, `/resources/*`, `/company/*`, `/enterprise-specs`
+- **React Router 7** for routing: `/`, `/platform`, `/product/:id`, `/resources/*`, `/company/*`, `/enterprise-specs`
 - **framer-motion** for the hero load sequence, page fades and one-time reveals; **Lenis** for inertial page scrolling
 - **three.js + @react-three/fiber + drei** for the background animations in `src/3d`, lazy-loaded so they stay out of the page bundles
 - **Geist + Geist Mono**, self-hosted via `@fontsource-variable/*`; **lucide-react** icons
@@ -38,12 +38,17 @@ src/
     ui/                   shadcn/ui primitives, tuned to the tokens
     brand/                Section (chassis), StatusChip/SampleTag, BrowserFrame, Meter,
                           CircuitNode/RingNode, SignalBeams, Reveal
-    layout/               Header (floating pill, mega menu, mobile sheet), Footer, PageShell
+    layout/               Header (floating pill, mega menu, mobile sheet), Footer, PageShell, PageHeader
     home/                 home-page sections, RoutingEngine, ProductFragment, console preview
     product/              product hero (with its 3D backdrop), dashboard, chart
     generic/              integration logos, sales request form
-  pages/                  Home, ProductPage, GenericPage
+  pages/                  Home (lean landing), PlatformPage (the detail behind "Know more"), ProductPage, GenericPage
 ```
+
+## Page structure
+
+- **Landing page (`/`)**: only what a first visit needs: hero with the routing engine, the platform statement and four-step call path (with **Know more**), products, pricing, FAQ, closing call to action.
+- **How Avortyx works (`/platform`)**: everything the landing page links to: how it works, the interactive sample call and its evidence, the console preview, Why Avortyx, the comparison, capabilities and the controls. Jump links under the title; nav "Console" and the hero's "Explore a sample call" land on their sections here.
 
 ## Styling notes
 

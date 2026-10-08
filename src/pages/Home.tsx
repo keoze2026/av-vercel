@@ -1,33 +1,22 @@
-import { useState } from 'react'
 import { Mail } from 'lucide-react'
 import { FaqList } from '@/components/FaqList'
 import { Reveal } from '@/components/brand/Reveal'
 import { Section } from '@/components/brand/Section'
-import { ConsoleSection } from '@/components/home/ConsoleSection'
 import { HeroSection } from '@/components/home/HeroSection'
-import {
-  CapabilitiesSection,
-  ComparisonSection,
-  DecisionModelSection,
-  LandingClose,
-  PricingSection,
-  TransparencySection,
-} from '@/components/home/LowerSections'
-import { PowerSection } from '@/components/home/PowerSection'
+import { LandingClose, PricingSection } from '@/components/home/LowerSections'
 import { ProductsGrid } from '@/components/home/ProductsGrid'
-import { SampleProof } from '@/components/home/SampleProof'
-import { Walkthrough } from '@/components/home/Walkthrough'
 import { WorkflowStrip } from '@/components/home/WorkflowStrip'
 import { PageShell } from '@/components/layout/PageShell'
 import { Eyebrow } from '@/components/SectionHeader'
 import { homeFaqs } from '@/data/products'
-import { scenarios } from '@/data/scenarios'
 import { CONTACT_EMAIL } from '@/data/site'
 import { usePageTitle } from '@/hooks/usePageTitle'
 
+/**
+ * The landing page answers four questions — what it is, how it works, what you
+ * get, what it costs — and hands the detail to /platform via "Know more".
+ */
 export default function Home() {
-  // Shared by the walkthrough and the "sample proof" strip further down.
-  const [scenario, setScenario] = useState(scenarios[0])
   usePageTitle()
 
   return (
@@ -42,14 +31,7 @@ export default function Home() {
     >
       <HeroSection />
       <WorkflowStrip />
-      <Walkthrough scenario={scenario} onSelect={setScenario} />
       <ProductsGrid />
-      <PowerSection />
-      <ConsoleSection />
-      <SampleProof scenario={scenario} />
-      <CapabilitiesSection />
-      <DecisionModelSection />
-      <ComparisonSection />
       <PricingSection />
       <Section id="faq">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
@@ -70,7 +52,6 @@ export default function Home() {
           </Reveal>
         </div>
       </Section>
-      <TransparencySection />
       <LandingClose />
     </PageShell>
   )

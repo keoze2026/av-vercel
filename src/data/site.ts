@@ -34,10 +34,13 @@ export const companyLinks: NavLink[] = [
   },
 ]
 
-/** Home-page sections reachable from the nav. */
+/** Top-level links that land on a section of a page. */
 export const sectionLinks = [
-  { label: 'Pricing', id: 'pricing' },
-  { label: 'Console', id: 'console' },
+  { label: 'Pricing', to: '/#pricing' },
+  { label: 'Console', to: '/platform#console' },
 ] as const
+
+/** The deep-dive page behind the landing page's "Know more" links. */
+export const PLATFORM_PATH = '/platform'
 
 export const CONTACT_EMAIL = 'hello@avortyx.io'

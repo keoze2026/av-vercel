@@ -3,7 +3,7 @@ import { ArrowRight, Check } from 'lucide-react'
 import { SceneBackdrop } from '@/3d'
 import { RoutingEngine } from '@/components/home/RoutingEngine'
 import { Button } from '@/components/ui/button'
-import { scrollToId } from '@/lib/motion'
+import { scrollToId, useNavigateTo } from '@/lib/motion'
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -21,6 +21,7 @@ const proofs = [
 ] as const
 
 export function HeroSection() {
+  const navigateTo = useNavigateTo()
   return (
     <section className="relative isolate overflow-hidden pt-header">
       {/* One glow per view, and calls streaming in from the distance toward the engine. */}
@@ -55,7 +56,7 @@ export function HeroSection() {
           variants={item}
           className="mt-9 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row"
         >
-          <Button size="xl" onClick={() => scrollToId('interactive-walkthrough')}>
+          <Button size="xl" onClick={() => navigateTo('/platform#interactive-walkthrough')}>
             Explore a sample call <ArrowRight data-icon="inline-end" />
           </Button>
           <Button size="xl" variant="outline" onClick={() => scrollToId('explore-products')}>

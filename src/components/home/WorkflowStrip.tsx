@@ -1,5 +1,7 @@
+import { Link } from 'react-router'
 import { motion } from 'framer-motion'
 import {
+  ArrowRight,
   CircleDollarSign,
   Network,
   Phone,
@@ -10,6 +12,8 @@ import {
 import { CircuitNode, RingNode } from '@/components/brand/CircuitNode'
 import { Reveal, stagger } from '@/components/brand/Reveal'
 import { Section } from '@/components/brand/Section'
+import { Button } from '@/components/ui/button'
+import { PLATFORM_PATH } from '@/data/site'
 import { cn } from '@/lib/utils'
 
 interface WorkflowStep {
@@ -109,6 +113,13 @@ export function WorkflowStrip() {
             ))}
           </ol>
         </div>
+        <Reveal delay={0.3} className="mt-12 flex justify-center md:mt-14">
+          <Button variant="outline" size="lg" asChild>
+            <Link to={PLATFORM_PATH} aria-label="Know more about how Avortyx works">
+              Know more <ArrowRight data-icon="inline-end" />
+            </Link>
+          </Button>
+        </Reveal>
       </div>
     </Section>
   )

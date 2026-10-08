@@ -12,7 +12,7 @@ export function PowerSection() {
   const current = powerFeatures.find((f) => f.id === selected) ?? powerFeatures[0]
 
   return (
-    <Section>
+    <Section id="why-avortyx">
       <SectionHeader
         label="Why Avortyx"
         title="Power your entire call business"
